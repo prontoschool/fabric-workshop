@@ -58,3 +58,6 @@ target/
 
 # Swp
 *.swp
+
+# Vagrant
+.vagrant
