@@ -1,3 +1,7 @@
+VAGRANT_IP = '192.168.66.77'
+EC2_IP = '54.179.183.245'
+
+
 # Simple Tasks
 
 def hello():
@@ -27,10 +31,10 @@ from fabric.api import cd, env, run
 
 
 env.hosts = [
-    'vagrant@192.168.66.77:22',
+    'vagrant@' + VAGRANT_IP + ':22',
 ]
 env.passwords = {
-    'vagrant@192.168.66.77:22': 'vagrant'
+    'vagrant@' + VAGRANT_IP + ':22': 'vagrant'
 }
 
 
@@ -43,7 +47,7 @@ def create_empty_file(name='test'):
 # ssh-add ~/.ssh/thaipy-demo.pem since accessing EC2 requires a key pair
 def my_ec2():
     env.hosts = [
-        'ubuntu@54.251.184.112:22',
+        'ubuntu@' + EC2_IP + ':22',
     ]
 
 
@@ -52,3 +56,20 @@ def deploy_page():
     run('git clone https://github.com/zkan/fabric-workshop.git')
     run('sudo cp fabric-workshop/index.html /usr/share/nginx/html')
     run('sudo service nginx restart')
+
+
+# Parallel Execution
+
+from fabric.api import parallel
+
+
+def my_servers():
+    env.hosts = [
+        'vagrant@' + VAGRANT_IP + ':22',
+        'ubuntu@' + EC2_IP + ':22',
+    ]
+
+
+@parallel
+def run_in_parallel():
+    run('whoami')
