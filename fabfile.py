@@ -45,3 +45,10 @@ def my_ec2():
     env.hosts = [
         'ubuntu@54.251.184.112:22',
     ]
+
+
+def deploy_page():
+    run('rm -rf fabric-workshop')
+    run('git clone https://github.com/zkan/fabric-workshop.git')
+    run('sudo cp fabric-workshop/index.html /usr/share/nginx/html')
+    run('sudo service nginx restart')
