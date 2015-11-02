@@ -19,3 +19,29 @@ def deploy_fizzbuzz():
         local('git add fizzbuzz.py fizzbuzz_test.py')
         local('git commit')
         local('git push origin master')
+
+
+# Remote Commands
+
+from fabric.api import cd, env, run
+
+
+env.hosts = [
+    'vagrant@192.168.66.77:22',
+]
+env.passwords = {
+    'vagrant@192.168.66.77:22': 'vagrant'
+}
+
+
+def create_empty_file(name='test'):
+    env.forward_agent = True
+    run('touch ' + name)
+    run('ls -al')
+
+
+# ssh-add ~/.ssh/thaipy-demo.pem since accessing EC2 requires a key pair
+def my_ec2():
+    env.hosts = [
+        'ubuntu@54.251.184.112:22',
+    ]
